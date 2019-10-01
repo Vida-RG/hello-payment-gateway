@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/PaymentGateway/.vs/PaymentGateway/v15
+/PaymentGateway/PaymentGateway/bin/Debug/netcoreapp2.1
+/PaymentGateway/PaymentGateway/obj
