@@ -6,3 +6,5 @@
 /PaymentGateway/.vs/PaymentGateway/v15
 /PaymentGateway/PaymentGateway/bin/Debug/netcoreapp2.1
 /PaymentGateway/PaymentGateway/obj
+/PaymentGateway/.vs/config
+/PaymentGateway/PaymentGateway/PaymentGateway.csproj.user
