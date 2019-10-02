@@ -9,3 +9,9 @@
 /PaymentGateway/.vs/config
 /PaymentGateway/PaymentGateway/PaymentGateway.csproj.user
 /PaymentGateway/.vs/PaymentGateway/DesignTimeBuild
+/PaymentGateway/PaymentGateway.BankAccess/obj
+/PaymentGateway/PaymentGateway.BankAccess/bin/Debug/netcoreapp2.1
+/PaymentGateway/PaymentGateway.Domain/obj
+/PaymentGateway/PaymentGateway.Domain/bin/Debug/netcoreapp2.1
+/PaymentGateway/Tests/PaymentGateway.Domain.UnitTest/obj
+/PaymentGateway/Tests/PaymentGateway.Domain.UnitTest/bin/Debug/netcoreapp2.1
