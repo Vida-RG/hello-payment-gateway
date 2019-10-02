@@ -7,7 +7,7 @@ namespace PaymentGateway.Controllers
     public class PaymentController : ControllerBase
     {
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(string id)
         {
             return Ok();
         }
