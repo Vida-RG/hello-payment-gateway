@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace PaymentGateway
 {
@@ -12,6 +13,13 @@ namespace PaymentGateway
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                 .ConfigureLogging((hostingContext, logging) =>
+                 {
+                     // Requires `using Microsoft.Extensions.Logging;`
+                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                     logging.AddConsole();
+                     logging.AddDebug();
+                 })
                 .UseStartup<Startup>();
     }
 }
