@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PaymentGateway.Domain.Models;
+using Microsoft.Extensions.Options;
+using PaymentGateway.DataStorage.Models;
+using PaymentGateway.DataStorage.Services;
+using PaymentGateway.Domain.Infrastructure;
 
 namespace PaymentGateway
 {
@@ -22,6 +26,15 @@ namespace PaymentGateway
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.Configure<CosmosDBOptions>(Configuration);
+            services.AddSingleton<CosmosClient>(serviceProvider =>
+            {
+                CosmosDBOptions options = serviceProvider.GetRequiredService<IOptionsMonitor<CosmosDBOptions>>().CurrentValue;
+
+                return new CosmosClient(
+                    options.CosmosEndpoint,
+                    options.CosmosAccessKey);
+            });
+            services.AddTransient<ITransactionResultRepository, TransactionResultCosmosRepository>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

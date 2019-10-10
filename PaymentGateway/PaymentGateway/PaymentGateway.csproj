@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PaymentGateway.BankAccess\PaymentGateway.BankAccess.csproj" />
+    <ProjectReference Include="..\PaymentGateway.DataStorage\PaymentGateway.DataStorage.csproj" />
     <ProjectReference Include="..\PaymentGateway.Domain\PaymentGateway.Domain.csproj" />
   </ItemGroup>
 

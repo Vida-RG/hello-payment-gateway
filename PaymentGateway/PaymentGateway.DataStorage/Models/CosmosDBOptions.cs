@@ -1,4 +1,4 @@
-﻿namespace PaymentGateway.Domain.Models
+﻿namespace PaymentGateway.DataStorage.Models
 {
     public class CosmosDBOptions
     {
