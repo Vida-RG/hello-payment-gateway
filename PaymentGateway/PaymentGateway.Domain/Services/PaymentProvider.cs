@@ -1,6 +1,6 @@
 ﻿namespace PaymentGateway.Domain.Services
 {
-    public class PaymentService
+    public class PaymentProvider : IPamentProvider
     {
 
     }
