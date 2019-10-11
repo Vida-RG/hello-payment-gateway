@@ -1,4 +1,6 @@
-﻿using PaymentGateway.Domain.Infrastructure;
+﻿using System.Threading.Tasks;
+using PaymentGateway.Domain.Infrastructure;
+using PaymentGateway.Domain.Models;
 
 namespace PaymentGateway.Domain.Services
 {
@@ -13,6 +15,16 @@ namespace PaymentGateway.Domain.Services
         {
             _bankClientService = bankClientService;
             _transactionResultRepository = transactionResultRepository;
+        }
+
+        public Task<TransactionResultQuery> GetDetailsOfPayment(string id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<string> Pay(Transaction transaction)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
