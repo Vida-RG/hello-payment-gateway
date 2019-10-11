@@ -31,11 +31,18 @@ namespace PaymentGateway
             services.Configure<CosmosDBOptions>(Configuration);
             services.AddSingleton<CosmosClient>(serviceProvider =>
             {
-                CosmosDBOptions options = serviceProvider.GetRequiredService<IOptionsMonitor<CosmosDBOptions>>().CurrentValue;
+                var monitoringOptions = serviceProvider.GetRequiredService<IOptionsMonitor<CosmosDBOptions>>();
+                CosmosDBOptions options = monitoringOptions.CurrentValue;
 
-                return new CosmosClient(
-                    options.CosmosEndpoint,
-                    options.CosmosAccessKey);
+                var cosmosClient =
+                    new CosmosClient(
+                        options.CosmosEndpoint,
+                        options.CosmosAccessKey);
+
+                var container = 
+                    TransactionResultCosmosRepository.CreateOrGetContainerAsync(cosmosClient, monitoringOptions).Result;
+
+                return cosmosClient;
             });
             services.AddTransient<ITransactionResultRepository, TransactionResultCosmosRepository>();
 
