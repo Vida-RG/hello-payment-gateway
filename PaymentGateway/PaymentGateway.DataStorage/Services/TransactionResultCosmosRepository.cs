@@ -64,9 +64,5 @@ namespace PaymentGateway.DataStorage.Services
 
             await _container.CreateItemAsync(transaction);
         }
-
-        public void Dispose()
-        {
-        }
     }
 }

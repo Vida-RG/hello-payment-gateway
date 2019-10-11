@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using PaymentGateway.BankAccess.Services;
 using PaymentGateway.Domain.Models;
 using PaymentGateway.Domain.Services;
-using PaymentGateway.Models;
 using System;
 using System.Threading.Tasks;
 
