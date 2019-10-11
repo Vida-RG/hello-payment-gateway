@@ -9,7 +9,7 @@ namespace PaymentGateway.DataStorage.Services
 {
     public class TransactionResultCosmosRepository : ITransactionResultRepository
     {
-        private const string PRATITION_KEY = "/PaymentId";
+        private const string PRATITION_KEY = "/id";
 
         private readonly CosmosClient _cosmosClient;
         private readonly IOptionsMonitor<CosmosDBOptions> _optionsMonitor;
@@ -21,6 +21,7 @@ namespace PaymentGateway.DataStorage.Services
             IOptionsMonitor<CosmosDBOptions> options)
         {
             _cosmosClient = cosmosClient;
+            _optionsMonitor = options;
         }
 
         public static async Task<Container> CreateOrGetContainerAsync(
@@ -52,7 +53,7 @@ namespace PaymentGateway.DataStorage.Services
 
             return await _container.ReadItemAsync<TransactionResult>(
                 transactionId,
-                new PartitionKey(PRATITION_KEY));
+                new PartitionKey(transactionId));
         }
 
         public async Task InsertTransaction(TransactionResult transaction)

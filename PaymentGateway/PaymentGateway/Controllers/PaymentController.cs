@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
 using PaymentGateway.BankAccess.Services;
 using PaymentGateway.Domain.Models;
@@ -35,7 +36,18 @@ namespace PaymentGateway.Controllers
         [ProducesResponseType(typeof(string), 404)]
         public async Task<IActionResult> Get([FromRoute] string id)
         {
-            TransactionResultQuery result = await _paymentProvider.GetDetailsOfPayment(id);
+            TransactionResultQuery result = null;
+            try
+            {
+                result = await _paymentProvider.GetDetailsOfPayment(id);
+            }
+            catch (CosmosException exception)
+            {
+                if (exception.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return NotFound("Not found");
+                }
+            }
 
             return Ok(result);
         }

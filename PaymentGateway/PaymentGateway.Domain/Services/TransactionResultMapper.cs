@@ -16,7 +16,7 @@ namespace PaymentGateway.Domain.Services
 
             var cardNumber = result.TransactionDetails.CardNumber;
             var lastFourDigit =
-                cardNumber.Substring(cardNumber.Length - 5);
+                cardNumber.Substring(cardNumber.Length - 4);
 
             return new TransactionResultQuery
             {
