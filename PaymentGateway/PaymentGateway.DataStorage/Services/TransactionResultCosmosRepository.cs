@@ -2,24 +2,25 @@
 using Microsoft.Extensions.Options;
 using PaymentGateway.DataStorage.Models;
 using PaymentGateway.Domain.Infrastructure;
-using PaymentGateway.Models;
-using System;
+using PaymentGateway.Domain.Models;
 using System.Threading.Tasks;
 
 namespace PaymentGateway.DataStorage.Services
 {
     public class TransactionResultCosmosRepository : ITransactionResultRepository
     {
+        private const string PRATITION_KEY = "/PaymentId";
+
         private readonly CosmosClient _cosmosClient;
-        private readonly Lazy<Task<Container>> _container;
+        private readonly IOptionsMonitor<CosmosDBOptions> _optionsMonitor;
+
+        private Container _container;
 
         public TransactionResultCosmosRepository(
             CosmosClient cosmosClient,
             IOptionsMonitor<CosmosDBOptions> options)
         {
             _cosmosClient = cosmosClient;
-
-            _container = new Lazy<Task<Container>>(async () => { return await CreateOrGetContainerAsync(_cosmosClient, options); });
         }
 
         public static async Task<Container> CreateOrGetContainerAsync(
@@ -36,20 +37,32 @@ namespace PaymentGateway.DataStorage.Services
                     .Database
                     .CreateContainerIfNotExistsAsync(
                         options.CosmosCollectionName,
-                        "/PaymentId",
+                        PRATITION_KEY,
                         options.CosmosCollectionRUCap);
 
             return containerResponse.Container;
         }
 
-        public TransactionResult GetTransactionByID(int transactionId)
+        public async Task<TransactionResult> GetTransactionByID(int transactionId)
         {
-            throw new System.NotImplementedException();
+            if (_container == null)
+            {
+                _container = await CreateOrGetContainerAsync(_cosmosClient, _optionsMonitor);
+            }
+
+            return await _container.ReadItemAsync<TransactionResult>(
+                transactionId.ToString(),
+                new PartitionKey(PRATITION_KEY));
         }
 
-        public void InsertTransaction(TransactionResult transaction)
+        public async Task InsertTransaction(TransactionResult transaction)
         {
-            throw new System.NotImplementedException();
+            if (_container == null)
+            {
+                _container = await CreateOrGetContainerAsync(_cosmosClient, _optionsMonitor);
+            }
+
+            await _container.CreateItemAsync(transaction);
         }
 
         public void Dispose()

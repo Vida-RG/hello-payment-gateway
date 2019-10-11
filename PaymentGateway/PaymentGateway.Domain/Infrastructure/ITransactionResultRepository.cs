@@ -1,11 +1,13 @@
-﻿using System;
+﻿using PaymentGateway.Domain.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace PaymentGateway.Domain.Infrastructure
 {
     public interface ITransactionResultRepository : IDisposable
     {
-        PaymentGateway.Models.TransactionResult GetTransactionByID(int transactionId);
+        Task<TransactionResult> GetTransactionByID(int transactionId);
 
-        void InsertTransaction(PaymentGateway.Models.TransactionResult transaction);
+        Task InsertTransaction(TransactionResult transaction);
     }
 }

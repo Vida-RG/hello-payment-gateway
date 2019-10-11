@@ -1,6 +1,4 @@
-﻿using PaymentGateway.Domain.Models;
-
-namespace PaymentGateway.Models
+﻿namespace PaymentGateway.Domain.Models
 {
     public class TransactionResult
     {
