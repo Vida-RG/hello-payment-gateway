@@ -30,7 +30,9 @@ namespace PaymentGateway.Controllers
         [ProducesResponseType(typeof(string), 404)]
         public async Task<IActionResult> Get(string id)
         {
-            return Ok();
+            TransactionResultQuery result = await _paymentProvider.GetDetailsOfPayment(id);
+
+            return Ok(result);
         }
 
         [HttpPost]
@@ -39,9 +41,10 @@ namespace PaymentGateway.Controllers
         [ProducesResponseType(typeof(string), 501)]
         public async Task<IActionResult> Post([FromBody] Transaction transaction)
         {
+            string resultId = string.Empty;
             try
             {
-
+                resultId = await _paymentProvider.Pay(transaction);
             }
             catch (ApiException error)
             {
@@ -55,7 +58,7 @@ namespace PaymentGateway.Controllers
                 throw new ApplicationException("Unexpected exception occured while processing your request");
             }
 
-            return Ok(new TransactionResult());
+            return Ok(resultId);
         }
     }
 }
