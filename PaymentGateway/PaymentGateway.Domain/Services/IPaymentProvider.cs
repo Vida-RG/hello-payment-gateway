@@ -1,6 +1,6 @@
 ﻿namespace PaymentGateway.Domain.Services
 {
-    public interface IPamentProvider
+    public interface IPaymentProvider
     {
 
     }

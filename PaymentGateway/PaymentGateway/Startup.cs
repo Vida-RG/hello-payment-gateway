@@ -10,6 +10,7 @@ using PaymentGateway.BankAccess.Services;
 using PaymentGateway.DataStorage.Models;
 using PaymentGateway.DataStorage.Services;
 using PaymentGateway.Domain.Infrastructure;
+using PaymentGateway.Domain.Services;
 
 namespace PaymentGateway
 {
@@ -42,6 +43,7 @@ namespace PaymentGateway
             services.AddHttpClient<BankClient>();
             services.AddTransient<IBankClientService, BankClientService>();
 
+            services.AddTransient<IPaymentProvider, PaymentProvider>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
