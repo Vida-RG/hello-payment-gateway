@@ -26,7 +26,7 @@ namespace PaymentGateway.Controllers
         }
 
         /// <summary>
-        /// Queries for a ditails of a completed transaction
+        /// Queries for details of a completed transaction
         /// </summary>
         /// <param name="id"> A Guid based id of a transaction </param>
         /// <returns> Payment details </returns>
