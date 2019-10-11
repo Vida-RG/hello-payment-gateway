@@ -25,16 +25,26 @@ namespace PaymentGateway.Controllers
             logger.LogInformation("Payment Controller is called");
         }
 
-        [HttpGet("{id}")]
+        /// <summary>
+        /// Queries for a ditails of a completed transaction
+        /// </summary>
+        /// <param name="id"> A Guid based id of a transaction </param>
+        /// <returns> Payment details </returns>
+        [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(TransactionResultQuery), 200)]
         [ProducesResponseType(typeof(string), 404)]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get([FromRoute] string id)
         {
             TransactionResultQuery result = await _paymentProvider.GetDetailsOfPayment(id);
 
             return Ok(result);
         }
 
+        /// <summary>
+        /// Executes a payment
+        /// </summary>
+        /// <param name="transaction"> Payment details </param>
+        /// <returns> Id of the payment </returns>
         [HttpPost]
         [ProducesResponseType(typeof(string), 200)]
         [ProducesResponseType(typeof(string), 400)]

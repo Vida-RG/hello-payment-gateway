@@ -56,6 +56,9 @@ namespace PaymentGateway
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "Hello Payment Gateway", Version = "v1" });
+                c.IncludeXmlComments(
+                    string.Format(@"{0}\PaymentGateway.xml",
+                    System.AppDomain.CurrentDomain.BaseDirectory));
             });
         }
 

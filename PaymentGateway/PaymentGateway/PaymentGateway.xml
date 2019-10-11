@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PaymentGateway</name>
+    </assembly>
+    <members>
+        <member name="M:PaymentGateway.Controllers.PaymentController.Get(System.String)">
+            <summary>
+            Queries for a ditails of a completed transaction
+            </summary>
+            <param name="id"> A Guid based id of a transaction </param>
+            <returns> Payment details </returns>
+        </member>
+        <member name="M:PaymentGateway.Controllers.PaymentController.Post(PaymentGateway.Domain.Models.Transaction)">
+            <summary>
+            Executes a payment
+            </summary>
+            <param name="transaction"> Payment details </param>
+            <returns> Id of the payment </returns>
+        </member>
+    </members>
+</doc>
