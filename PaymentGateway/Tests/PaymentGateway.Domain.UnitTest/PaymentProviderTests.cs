@@ -12,17 +12,18 @@ namespace PaymentGateway.Domain.UnitTest
     [TestClass]
     public class PaymentProviderTests
     {
-
         [TestMethod]
         public void GetDetailsOfPayment_NullId_ThrowsNullArgumentException()
         {
             var bankClientMoq = new Mock<IBankClientService>();
             var repositoryMoq = new Mock<ITransactionResultRepository>();
-            var mapperMoq = new Mock<ITransactionResultMapper>();
+            var resultMapperMoq = new Mock<ITransactionResultMapper>();
+            var mapperMoq = new Mock<ITransactionMapper>();
 
             var provider = new PaymentProvider(
                 bankClientMoq.Object,
                 repositoryMoq.Object,
+                resultMapperMoq.Object,
                 mapperMoq.Object);
 
             bool thrown = false;
@@ -47,11 +48,13 @@ namespace PaymentGateway.Domain.UnitTest
         {
             var bankClientMoq = new Mock<IBankClientService>();
             var repositoryMoq = new Mock<ITransactionResultRepository>();
-            var mapperMoq = new Mock<ITransactionResultMapper>();
+            var resultMapperMoq = new Mock<ITransactionResultMapper>();
+            var mapperMoq = new Mock<ITransactionMapper>();
 
             var provider = new PaymentProvider(
                 bankClientMoq.Object,
                 repositoryMoq.Object,
+                resultMapperMoq.Object,
                 mapperMoq.Object);
 
             bool thrown = false;
@@ -78,12 +81,13 @@ namespace PaymentGateway.Domain.UnitTest
             repositoryMoq
                 .Setup(moq => moq.GetTransactionByID(It.IsAny<string>()))
                 .Returns(Task.FromResult<TransactionResult>(null));
-
-            var mapperMoq = new Mock<ITransactionResultMapper>();
+            var resultMapperMoq = new Mock<ITransactionResultMapper>();
+            var mapperMoq = new Mock<ITransactionMapper>();
 
             var provider = new PaymentProvider(
                 bankClientMoq.Object,
                 repositoryMoq.Object,
+                resultMapperMoq.Object,
                 mapperMoq.Object);
 
             var result = provider.GetDetailsOfPayment(Guid.Empty.ToString()).Result;
@@ -100,14 +104,17 @@ namespace PaymentGateway.Domain.UnitTest
                 .Setup(moq => moq.GetTransactionByID(It.IsAny<string>()))
                 .Returns(Task.FromResult<TransactionResult>(new TransactionResult()));
 
-            var mapperMoq = new Mock<ITransactionResultMapper>();
-            mapperMoq
+            var resultMapperMoq = new Mock<ITransactionResultMapper>();
+            resultMapperMoq
                 .Setup(moq => moq.Map(It.IsAny<TransactionResult>()))
                 .Returns(new TransactionResultQuery());
+
+            var mapperMoq = new Mock<ITransactionMapper>();
 
             var provider = new PaymentProvider(
                 bankClientMoq.Object,
                 repositoryMoq.Object,
+                resultMapperMoq.Object,
                 mapperMoq.Object);
 
             var result = provider.GetDetailsOfPayment(Guid.Empty.ToString()).Result;
@@ -120,11 +127,13 @@ namespace PaymentGateway.Domain.UnitTest
         {
             var bankClientMoq = new Mock<IBankClientService>();
             var repositoryMoq = new Mock<ITransactionResultRepository>();
-            var mapperMoq = new Mock<ITransactionResultMapper>();
+            var resultMapperMoq = new Mock<ITransactionResultMapper>();
+            var mapperMoq = new Mock<ITransactionMapper>();
 
             var provider = new PaymentProvider(
                 bankClientMoq.Object,
                 repositoryMoq.Object,
+                resultMapperMoq.Object,
                 mapperMoq.Object);
 
             bool thrown = false;
@@ -142,6 +151,5 @@ namespace PaymentGateway.Domain.UnitTest
 
             Assert.IsTrue(thrown);
         }
-
     }
 }

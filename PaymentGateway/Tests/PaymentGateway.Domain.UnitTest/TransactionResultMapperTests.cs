@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PaymentGateway.Domain.Models;
 using PaymentGateway.Domain.Services;
 using System;
 
@@ -33,12 +34,12 @@ namespace PaymentGateway.Domain.UnitTest
             var mapper = new TransactionResultMapper();
             var input = new Models.TransactionResult
             {
-                Code = 0,
+                Code = (PaymentStatusCode)1,
                 BankId = string.Empty,
                 PaymentId = string.Empty,
                 TransactionDetails = new Models.Transaction
                 {
-                    Amount = 0.0m,
+                    Amount = 1.0m,
                     CardHolderName = string.Empty,
                     CardNumber = $"0000-1111-2222-{lastFourDigit}",
                     CurrencyISO4217Code = "EUR",

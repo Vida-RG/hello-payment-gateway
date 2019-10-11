@@ -52,6 +52,7 @@ namespace PaymentGateway
 
             services.AddTransient<IPaymentProvider, PaymentProvider>();
             services.AddTransient<ITransactionResultMapper, TransactionResultMapper>();
+            services.AddTransient<ITransactionMapper, TransactionMapper>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

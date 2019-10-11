@@ -11,15 +11,18 @@ namespace PaymentGateway.Domain.Services
         private readonly IBankClientService _bankClientService;
         private readonly ITransactionResultRepository _transactionResultRepository;
         private readonly ITransactionResultMapper _transactionResultMapper;
+        private readonly ITransactionMapper _transactionMapper;
 
         public PaymentProvider(
             IBankClientService bankClientService,
             ITransactionResultRepository transactionResultRepository,
-            ITransactionResultMapper transactionResultMapper)
+            ITransactionResultMapper transactionResultMapper,
+            ITransactionMapper transactionMapper)
         {
             _bankClientService = bankClientService;
             _transactionResultRepository = transactionResultRepository;
             _transactionResultMapper = transactionResultMapper;
+            _transactionMapper = transactionMapper;
         }
 
         public async Task<TransactionResultQuery> GetDetailsOfPayment(string id)
@@ -53,6 +56,9 @@ namespace PaymentGateway.Domain.Services
             {
                 throw new ArgumentNullException(nameof(transaction));
             }
+
+            PaymentState paymentResult =
+                await _bankClientService.PostAsync(_transactionMapper.Map(transaction));
 
             throw new NotImplementedException();
         }
