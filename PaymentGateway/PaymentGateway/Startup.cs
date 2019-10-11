@@ -5,6 +5,8 @@ using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using PaymentGateway.BankAccess.Models;
+using PaymentGateway.BankAccess.Services;
 using PaymentGateway.DataStorage.Models;
 using PaymentGateway.DataStorage.Services;
 using PaymentGateway.Domain.Infrastructure;
@@ -35,6 +37,11 @@ namespace PaymentGateway
                     options.CosmosAccessKey);
             });
             services.AddTransient<ITransactionResultRepository, TransactionResultCosmosRepository>();
+
+            services.Configure<BankClientOptions>(Configuration);
+            services.AddHttpClient<BankClient>();
+            services.AddTransient<IBankClientService, BankClientService>();
+
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
