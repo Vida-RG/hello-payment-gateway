@@ -151,5 +151,35 @@ namespace PaymentGateway.Domain.UnitTest
 
             Assert.IsTrue(thrown);
         }
+
+        [TestMethod]
+        public void Pay_ValidTransaction_ReturnsGuid()
+        {
+            var bankClientMoq = new Mock<IBankClientService>();
+            var repositoryMoq = new Mock<ITransactionResultRepository>();
+            repositoryMoq
+                .Setup(moq => moq.InsertTransaction(It.IsAny<TransactionResult>()));
+            var resultMapperMoq = new Mock<ITransactionResultMapper>();
+            resultMapperMoq
+                .Setup(moq => moq.Map(It.IsAny<PaymentState>(), It.IsAny<Transaction>()))
+                .Returns(new TransactionResult());
+            var mapperMoq = new Mock<ITransactionMapper>();
+
+            var provider = new PaymentProvider(
+                bankClientMoq.Object,
+                repositoryMoq.Object,
+                resultMapperMoq.Object,
+                mapperMoq.Object);
+
+            var result = provider.Pay(new Transaction()).Result;
+
+            Assert.IsTrue(!string.IsNullOrWhiteSpace(result));
+            Guid guid = Guid.Parse(result);
+
+            repositoryMoq
+                .Verify(
+                    moq => moq.InsertTransaction(It.IsAny<TransactionResult>()),
+                    Times.Once);
+        }
     }
 }

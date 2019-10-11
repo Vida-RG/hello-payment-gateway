@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PaymentGateway.BankAccess.Services;
 using PaymentGateway.Domain.Models;
 using PaymentGateway.Domain.Services;
 using System;
@@ -63,6 +64,70 @@ namespace PaymentGateway.Domain.UnitTest
 
             Assert.IsTrue(resultTransaction.CardNumber.StartsWith(TransactionResultMapper.CARD_MASK));
             Assert.IsTrue(resultTransaction.CardNumber.EndsWith(lastFourDigit));
+        }
+
+        [TestMethod]
+        public void MapTransactionResult_NullTransaction_ThrowsArgumentNullException()
+        {
+            var mapper = new TransactionResultMapper();
+
+            bool thrown = false;
+            try
+            {
+                var result = mapper.Map(new PaymentState(), null);
+            }
+            catch (ArgumentNullException)
+            {
+                thrown = true;
+            }
+
+            Assert.IsTrue(thrown);
+        }
+
+        [TestMethod]
+        public void MapTransactionResult_NullPaymentState_ThrowsArgumentNullException()
+        {
+            var mapper = new TransactionResultMapper();
+
+            bool thrown = false;
+            try
+            {
+                var result = mapper.Map(null, new Transaction());
+            }
+            catch (ArgumentNullException)
+            {
+                thrown = true;
+            }
+
+            Assert.IsTrue(thrown);
+        }
+
+
+        [TestMethod]
+        public void MapTransactionResult_NormalTransaction_MapsAndMaskData()
+        {
+            var mapper = new TransactionResultMapper();
+            var tansaction = new Models.Transaction
+            {
+                Amount = 1.0m,
+                CardHolderName = string.Empty,
+                CardNumber = "0000-1111-2222-3333",
+                CurrencyISO4217Code = "EUR",
+                CVVNumber = 123,
+                ExperyDate = new DateTime(1, 1, 1)
+            };
+            var paymentState = new PaymentState
+            {
+                Code = (PaymentStateCode)1,
+                Id = string.Empty
+            };
+
+            var result = mapper.Map(paymentState, tansaction);
+
+            Assert.AreEqual(result.Code, PaymentStatusCode.Success);
+            Assert.AreEqual(result.BankId, string.Empty);
+            Assert.IsNull(result.PaymentId);
+            Assert.IsNotNull(result.TransactionDetails);
         }
     }
 }

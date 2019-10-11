@@ -60,7 +60,15 @@ namespace PaymentGateway.Domain.Services
             PaymentState paymentResult =
                 await _bankClientService.PostAsync(_transactionMapper.Map(transaction));
 
-            throw new NotImplementedException();
+            string paymentId = Guid.NewGuid().ToString();
+            TransactionResult result =
+                _transactionResultMapper.Map(paymentResult, transaction);
+
+            result.PaymentId = paymentId;
+
+            await _transactionResultRepository.InsertTransaction(result);
+
+            return paymentId;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PaymentGateway.Domain.Models;
+﻿using PaymentGateway.BankAccess.Services;
+using PaymentGateway.Domain.Models;
 
 namespace PaymentGateway.Domain.Services
 {
@@ -30,6 +31,26 @@ namespace PaymentGateway.Domain.Services
                     CVVNumber = null,
                     ExperyDate = result.TransactionDetails.ExperyDate
                 }
+            };
+        }
+
+        public TransactionResult Map(PaymentState paymentResult, Transaction transaction)
+        {
+            if (paymentResult == null)
+            {
+                throw new System.ArgumentNullException(nameof(paymentResult));
+            }
+
+            if (transaction == null)
+            {
+                throw new System.ArgumentNullException(nameof(transaction));
+            }
+
+            return new TransactionResult
+            {
+                BankId = paymentResult.Id,
+                Code = (PaymentStatusCode)paymentResult.Code,
+                TransactionDetails = transaction
             };
         }
     }
