@@ -5,7 +5,7 @@ namespace PaymentGateway.Domain.Infrastructure
 {
     public interface ITransactionResultRepository
     {
-        Task<TransactionResult> GetTransactionByID(int transactionId);
+        Task<TransactionResult> GetTransactionByID(string transactionId);
 
         Task InsertTransaction(TransactionResult transaction);
     }

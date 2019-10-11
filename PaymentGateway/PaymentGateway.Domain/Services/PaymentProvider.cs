@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using PaymentGateway.BankAccess.Services;
 using PaymentGateway.Domain.Infrastructure;
 using PaymentGateway.Domain.Models;
 
@@ -8,23 +10,51 @@ namespace PaymentGateway.Domain.Services
     {
         private readonly IBankClientService _bankClientService;
         private readonly ITransactionResultRepository _transactionResultRepository;
+        private readonly ITransactionResultMapper _transactionResultMapper;
 
         public PaymentProvider(
             IBankClientService bankClientService,
-            ITransactionResultRepository transactionResultRepository)
+            ITransactionResultRepository transactionResultRepository,
+            ITransactionResultMapper transactionResultMapper)
         {
             _bankClientService = bankClientService;
             _transactionResultRepository = transactionResultRepository;
+            _transactionResultMapper = transactionResultMapper;
         }
 
-        public Task<TransactionResultQuery> GetDetailsOfPayment(string id)
+        public async Task<TransactionResultQuery> GetDetailsOfPayment(string id)
         {
-            throw new System.NotImplementedException();
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
+            Guid parsed = Guid.Empty;
+            if (!Guid.TryParse(id, out parsed))
+            {
+                throw new ArgumentException("Id has to be a valid guid", nameof(id));
+            }
+
+            TransactionResult transactionResult =
+                await _transactionResultRepository.GetTransactionByID(id);
+
+            TransactionResultQuery result = null;
+            if (transactionResult != null)
+            {
+                result = _transactionResultMapper.Map(transactionResult);
+            }
+
+            return result;
         }
 
-        public Task<string> Pay(Transaction transaction)
+        public async Task<string> Pay(Transaction transaction)
         {
-            throw new System.NotImplementedException();
+            if (transaction == null)
+            {
+                throw new ArgumentNullException(nameof(transaction));
+            }
+
+            throw new NotImplementedException();
         }
     }
 }

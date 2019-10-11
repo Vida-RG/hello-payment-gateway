@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using PaymentGateway.Domain.Infrastructure;
 
 namespace PaymentGateway.BankAccess.Services
 {

@@ -1,7 +1,6 @@
-﻿using PaymentGateway.BankAccess.Services;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace PaymentGateway.Domain.Infrastructure
+namespace PaymentGateway.BankAccess.Services
 {
     public interface IBankClientService
     {

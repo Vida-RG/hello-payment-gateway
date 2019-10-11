@@ -43,7 +43,7 @@ namespace PaymentGateway.DataStorage.Services
             return containerResponse.Container;
         }
 
-        public async Task<TransactionResult> GetTransactionByID(int transactionId)
+        public async Task<TransactionResult> GetTransactionByID(string transactionId)
         {
             if (_container == null)
             {
@@ -51,7 +51,7 @@ namespace PaymentGateway.DataStorage.Services
             }
 
             return await _container.ReadItemAsync<TransactionResult>(
-                transactionId.ToString(),
+                transactionId,
                 new PartitionKey(PRATITION_KEY));
         }
 
