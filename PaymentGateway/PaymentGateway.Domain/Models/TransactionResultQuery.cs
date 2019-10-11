@@ -4,6 +4,6 @@
     { 
         public PaymentStatusCode Code { get; set; }
         public string PaymentId { get; set; }
-        Transaction TransactionDetails { get; set; }
+        public Transaction TransactionDetails { get; set; }
     }
 }
