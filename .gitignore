@@ -17,3 +17,4 @@
 /PaymentGateway/Tests/PaymentGateway.Domain.UnitTest/bin/Debug/netcoreapp2.1
 /PaymentGateway/PaymentGateway.DataStorage/obj
 /PaymentGateway/PaymentGateway.DataStorage/bin/Debug/netcoreapp2.1
+/PaymentGateway/PaymentGateway.Domain/PaymentGateway.Domain.csproj.user
